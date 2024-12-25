@@ -1,0 +1,20 @@
+{
+  "private": true,
+  "name": "@ft-minecraft/client-ts",
+  "version": "0.1.0",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "build": "rimraf dist && node build.js && cpy \"public/**/*\" dist --parents",
+    "serve": "npm run build && http-server dist"
+  },
+  "devDependencies": {
+    "@webgpu/types": "^0.1.52",
+    "cpy-cli": "^5.0.0",
+    "esbuild": "^0.24.2",
+    "esbuild-plugin-embed": "^0.1.0",
+    "http-server": "^14.1.1",
+    "rimraf": "^6.0.1",
+    "typescript": "^5.7.2"
+  }
+}

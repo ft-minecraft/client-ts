@@ -1,0 +1,28 @@
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #ff7eb3, #ff758c, #ff6a66, #ff6000);
+  background-size: 400% 400%;
+  animation: gradientAnimation 6s ease infinite;
+}
+
+body::after {
+  content: attr(data-error-message);
+  color: white;
+  font-size: 2rem;
+  font-family: Arial, sans-serif;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
