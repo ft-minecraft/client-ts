@@ -8,6 +8,9 @@
     "build": "rimraf dist && node build.js && cpy \"public/**/*\" dist --parents",
     "serve": "npm run build && http-server dist"
   },
+  "dependencies": {
+    "wgpu-matrix": "^3.3.0"
+  },
   "devDependencies": {
     "@webgpu/types": "^0.1.52",
     "cpy-cli": "^5.0.0",

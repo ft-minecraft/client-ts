@@ -6,7 +6,7 @@ type HookStoreItemRef = [type: "ref", value: [any]];
 type HookStoreItemMemo = [type: "memo", value: any, deps: any[]];
 type HookStoreItemEffect = [
   type: "effect",
-  cleanup: (() => unknown) | undefined,
+  cleanup: (() => unknown) | undefined | void,
   deps: any[]
 ];
 
@@ -115,7 +115,7 @@ export function useMemo<T>(value: () => T, deps: any[]): T {
 }
 
 export function useEffect(
-  effect: () => (() => unknown) | undefined,
+  effect: () => (() => unknown) | undefined | void,
   deps: any[]
 ) {
   assert(states.length !== 0, "Hook assertion failed: no active hook store.");
