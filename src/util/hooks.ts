@@ -62,7 +62,7 @@ export function useRef<T>(value: T): [T] {
   assert(
     state[1] === undefined ||
       (state[0].store?.length !== state[1] &&
-        state[0].store?.[state[1]][0] !== "ref"),
+        state[0].store?.[state[1]][0] === "ref"),
     "Hook assertion failed: hook called in in incorrect order."
   );
 
@@ -93,7 +93,7 @@ export function useMemo<T>(value: () => T, deps: any[]): T {
   assert(
     state[1] === undefined ||
       (state[0].store?.length !== state[1] &&
-        state[0].store?.[state[1]][0] !== "memo"),
+        state[0].store?.[state[1]][0] === "memo"),
     "Hook assertion failed: hook called in in incorrect order."
   );
 
@@ -125,7 +125,7 @@ export function useEffect(
   assert(
     state[1] === undefined ||
       (state[0].store?.length !== state[1] &&
-        state[0].store?.[state[1]][0] !== "effect"),
+        state[0].store?.[state[1]][0] === "effect"),
     "Hook assertion failed: hook called in in incorrect order."
   );
 
