@@ -1,3 +1,5 @@
+// @ts-check
+
 import esbuild from "esbuild";
 import { EmbedFilePlugin } from "esbuild-plugin-embed";
 
@@ -9,7 +11,7 @@ import { EmbedFilePlugin } from "esbuild-plugin-embed";
     plugins: [
       EmbedFilePlugin({
         cwd: ".",
-        match: (filePath) => filePath.match(/\.(?:wgsl|css)$/),
+        match: (filePath) => !!filePath.match(/\.(?:wgsl|css)$/),
       }),
     ],
     platform: "node",
