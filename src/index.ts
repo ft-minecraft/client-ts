@@ -1,5 +1,7 @@
 import { mat4, vec3 } from "wgpu-matrix";
 import {
+  cubeIndexArray,
+  cubeIndexCount,
   cubePositionOffset,
   cubeUVOffset,
   cubeVertexArray,
@@ -41,6 +43,13 @@ async function main() {
   const shader = device.createShaderModule({
     code: shaderCode,
   });
+  const indicesBuffer = device.createBuffer({
+    size: cubeIndexArray.byteLength,
+    usage: GPUBufferUsage.INDEX,
+    mappedAtCreation: true,
+  });
+  new Uint16Array(indicesBuffer.getMappedRange()).set(cubeIndexArray);
+  indicesBuffer.unmap();
   const verticesBuffer = device.createBuffer({
     size: cubeVertexArray.byteLength,
     usage: GPUBufferUsage.VERTEX,
@@ -163,8 +172,9 @@ async function main() {
     const passEncoder = commandEncoder.beginRenderPass(renderPassDescriptor);
     passEncoder.setPipeline(pipeline);
     passEncoder.setBindGroup(0, uniformBindGroup);
+    passEncoder.setIndexBuffer(indicesBuffer, "uint16");
     passEncoder.setVertexBuffer(0, verticesBuffer);
-    passEncoder.draw(cubeVertexCount);
+    passEncoder.drawIndexed(cubeIndexCount);
     passEncoder.end();
     device.queue.submit([commandEncoder.finish()]);
 
@@ -180,6 +190,7 @@ window.addEventListener("load", async () => {
   try {
     await main();
   } catch (e) {
+    console.error(e);
     if (e instanceof Error) {
       while (document.body.firstChild) {
         document.body.removeChild(document.body.firstChild);
