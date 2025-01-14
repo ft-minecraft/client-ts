@@ -181,6 +181,9 @@ window.addEventListener("load", async () => {
     await main();
   } catch (e) {
     if (e instanceof Error) {
+      while (document.body.firstChild) {
+        document.body.removeChild(document.body.firstChild);
+      }
       document.body.dataset.errorMessage = e.message;
       applyCSS(readFileSync("assets/failed.css"));
     }
