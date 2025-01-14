@@ -107,6 +107,7 @@ export function useMemo<T>(value: () => T, deps: any[]): T {
     const needAction = depsChanged(item[2], deps);
     const result = needAction ? value() : item[1];
     if (needAction) {
+      item[1] = result;
       item[2] = deps;
     }
     state[1]++;
