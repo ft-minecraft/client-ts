@@ -6,8 +6,10 @@ import { EmbedFilePlugin } from "esbuild-plugin-embed";
 (async () => {
   await esbuild.build({
     entryPoints: ["src/index.ts"],
-    outfile: "dist/index.js",
+    outdir: "dist",
+    splitting: true,
     bundle: true,
+    format: "esm",
     plugins: [
       EmbedFilePlugin({
         cwd: ".",
