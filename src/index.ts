@@ -5,7 +5,6 @@ import {
   cubePositionOffset,
   cubeUVOffset,
   cubeVertexArray,
-  cubeVertexCount,
   cubeVertexSize,
 } from "./cube";
 import { nonNullable } from "./util/assert/nonNullable";
