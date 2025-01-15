@@ -41,7 +41,7 @@ export function end(store = defaultHookStore) {
   );
 }
 
-export function finalize(store = defaultHookStore) {
+export function dispose(store = defaultHookStore) {
   assert(
     states.findIndex(([s]) => s === store) === -1,
     "Hook assertion failed: finalize() called before end()."
@@ -144,4 +144,25 @@ export function useEffect(
     }
     state[1]++;
   }
+}
+
+export interface Hook {
+  start(): void;
+  end(): void;
+  dispose(): void;
+}
+
+export function Hook(): Hook {
+  const store: HookStore = {};
+  return {
+    start() {
+      start(store);
+    },
+    end() {
+      end(store);
+    },
+    dispose() {
+      dispose(store);
+    },
+  };
 }

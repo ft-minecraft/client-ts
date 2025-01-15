@@ -1,6 +1,12 @@
-import { nonNullable } from "./util/assert/nonNullable";
+import { nonNullable } from "../util/assert/nonNullable";
 
-export async function initCanvas() {
+export type Context = [
+  canvas: HTMLCanvasElement,
+  device: GPUDevice,
+  context: GPUCanvasContext
+];
+
+export async function initContext(): Promise<Context> {
   if (!navigator.gpu) {
     throw new Error("Your browser does not support WebGPU.");
   }
@@ -18,5 +24,5 @@ export async function initCanvas() {
     "Failed to get webgpu context."
   );
 
-  return [canvas, device, context] as const;
+  return [canvas, device, context];
 }
