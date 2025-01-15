@@ -7,29 +7,34 @@ import {
   cubeVertexArray,
   cubeVertexSize,
 } from "./cube";
-import { nonNullable } from "./util/assert/nonNullable";
+import { initCanvas } from "./initCanvas";
 import { applyCSS } from "./util/dom/applyCSS";
 import { end, start, useEffect, useMemo } from "./util/hooks";
+import { Awaitable } from "./util/types/Awaitable";
+
+async function run<Result, Args extends any[]>(
+  func: (...args: Args) => Awaitable<Result>,
+  ...args: Args
+): Promise<Result> {
+  try {
+    return await func(...args);
+  } catch (e) {
+    console.error(e);
+    if (e instanceof Error) {
+      while (document.body.firstChild) {
+        document.body.removeChild(document.body.firstChild);
+      }
+      document.body.dataset.errorMessage = e.message;
+      applyCSS(readFileSync("assets/failed.css"));
+    }
+    throw e;
+  }
+}
 
 async function main() {
   applyCSS(readFileSync("assets/reset.css"));
 
-  if (!navigator.gpu) {
-    throw new Error("Your browser does not support WebGPU.");
-  }
-
-  const canvas = document.createElement("canvas");
-  document.body.insertBefore(canvas, null);
-  const adapter = nonNullable(
-    await navigator.gpu.requestAdapter(),
-    "Failed to get GPU adapter."
-  );
-
-  const device = await adapter.requestDevice();
-  const context = nonNullable(
-    canvas.getContext("webgpu"),
-    "Failed to get webgpu context."
-  );
+  const [canvas, device, context] = await run(initCanvas);
 
   const format = navigator.gpu.getPreferredCanvasFormat();
   context.configure({
@@ -179,26 +184,13 @@ async function main() {
 
     end();
 
-    requestAnimationFrame(render);
+    requestAnimationFrame(() => run(render));
   }
 
-  render();
+  run(render);
 }
 
-window.addEventListener("load", async () => {
-  try {
-    await main();
-  } catch (e) {
-    console.error(e);
-    if (e instanceof Error) {
-      while (document.body.firstChild) {
-        document.body.removeChild(document.body.firstChild);
-      }
-      document.body.dataset.errorMessage = e.message;
-      applyCSS(readFileSync("assets/failed.css"));
-    }
-  }
-});
+window.addEventListener("load", main);
 
 function getTransformationMatrix(projectionMatrix: Float32Array) {
   const viewMatrix = mat4.identity();
