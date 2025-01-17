@@ -8,17 +8,11 @@ import {
   cubeVertexSize,
 } from "../../cube";
 import { Scene } from "../../framework/types/Scene";
-import { disposer } from "../../framework/util/disposer";
 import { sceneFactory } from "../../framework/util/sceneFactory";
-import { windowOn } from "../../util/dom/windowOn";
 import { Hook, useEffect, useMemo } from "../../util/hooks";
 
-export const devScene = sceneFactory<[message: string]>(
+export const mainScene = sceneFactory<[message: string]>(
   async (canvas, device, context, transition, message): Promise<Scene> => {
-    const hook = Hook();
-    const [dispose, addItem] = disposer();
-    addItem(hook.dispose);
-
     const format = navigator.gpu.getPreferredCanvasFormat();
     context.configure({
       device,
@@ -102,19 +96,7 @@ export const devScene = sceneFactory<[message: string]>(
       ],
     });
 
-    function onStart() {
-      addItem(
-        windowOn("keydown", async (ev) => {
-          if (ev.key == "Enter") {
-            transition(
-              await (
-                await import("../main")
-              ).mainScene(canvas, device, context, transition, "test")
-            );
-          }
-        })
-      );
-    }
+    const hook = Hook();
 
     function render() {
       const pixelRatio = window.devicePixelRatio || 1;
@@ -181,7 +163,11 @@ export const devScene = sceneFactory<[message: string]>(
       hook.end();
     }
 
-    return { onStart, render, dispose };
+    function dispose() {
+      hook.dispose();
+    }
+
+    return { onStart: () => console.log("main scene loaded"), render, dispose };
   }
 );
 
