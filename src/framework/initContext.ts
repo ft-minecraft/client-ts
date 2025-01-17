@@ -14,7 +14,9 @@ export async function initContext(): Promise<Context> {
   const canvas = document.createElement("canvas");
   document.body.insertBefore(canvas, null);
   const adapter = nonNullable(
-    await navigator.gpu.requestAdapter(),
+    await navigator.gpu.requestAdapter({
+      powerPreference: "high-performance",
+    }),
     "Failed to get GPU adapter."
   );
 
