@@ -9,6 +9,8 @@
     "serve": "cross-env NODE_ENV=development npm run build && http-server dist"
   },
   "dependencies": {
+    "alea": "^1.0.1",
+    "simplex-noise": "^4.0.3",
     "wgpu-matrix": "^3.3.0"
   },
   "devDependencies": {

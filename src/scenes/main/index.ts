@@ -1,3 +1,5 @@
+import Alea from "alea";
+import { createNoise3D } from "simplex-noise";
 import { mat4, vec3 } from "wgpu-matrix";
 import {
   cubeIndexArray,
@@ -9,7 +11,22 @@ import {
 } from "../../cube";
 import { Scene } from "../../framework/types/Scene";
 import { sceneFactory } from "../../framework/util/sceneFactory";
+import { array } from "../../util/array/array";
 import { Hook, useEffect, useMemo } from "../../util/hooks";
+
+const MAP_SIZE = 4;
+
+function generateMap(...seed: string[]) {
+  const noise = createNoise3D(Alea(...seed));
+
+  return array(MAP_SIZE * MAP_SIZE * MAP_SIZE, (i) => {
+    const x = i % MAP_SIZE;
+    const y = ((i - x) / MAP_SIZE) % MAP_SIZE;
+    const z = ((i - x) / MAP_SIZE - y) / MAP_SIZE;
+
+    return noise(x, y, z) > 0.0;
+  });
+}
 
 export const mainScene = sceneFactory<[message: string]>(
   async (canvas, device, context, transition, message): Promise<Scene> => {
