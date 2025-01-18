@@ -1,0 +1,15 @@
+{
+  "short_name": "ft_minecraft",
+  "name": "ft_minecraft client in TS",
+  "icons": [
+    {
+      "src": "/icon-400x400.png",
+      "sizes": "400x400",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "/",
+  "theme_color": "#424242",
+  "background_color": "#042420",
+  "display": "fullscreen"
+}
