@@ -1,7 +1,9 @@
 import { applyCSS } from "../util/dom/applyCSS";
 import { initContext } from "./initContext";
 import { run } from "./run";
-import { Scene, SceneFactory } from "./types/Scene";
+import { Context } from "./types/Context";
+import { Scene } from "./types/Scene";
+import { SceneFactory } from "./util/sceneFactory";
 
 export async function main<T extends any[]>(
   initialScene: SceneFactory<T>,
@@ -9,16 +11,16 @@ export async function main<T extends any[]>(
 ) {
   applyCSS(readFileSync("assets/reset.css"));
 
-  const [canvas, device, context] = await run(initContext);
-
-  let currentScene = await run(
-    initialScene,
+  const [canvas, device, canvasContext] = await run(initContext);
+  const context: Context = {
     canvas,
     device,
-    context,
+    canvasContext,
     transition,
-    ...args
-  );
+    run,
+  };
+
+  let currentScene = await run(initialScene, context, ...args);
   let nextScene: Scene | undefined;
 
   function transition(scene: Scene) {

@@ -1,6 +1,17 @@
 import { applyCSS } from "../util/dom/applyCSS";
 import { Awaitable } from "../util/types/Awaitable";
 
+export interface Run {
+  <Result, Args extends any[]>(
+    func: (...args: Args) => Result,
+    ...args: Args
+  ): Result;
+  <Result, Args extends any[]>(
+    func: (...args: Args) => Awaitable<Result>,
+    ...args: Args
+  ): Promise<Result>;
+}
+
 export function run<Result, Args extends any[]>(
   func: (...args: Args) => Result,
   ...args: Args
