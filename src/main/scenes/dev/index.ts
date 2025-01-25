@@ -3,7 +3,6 @@ import {
   cubeIndexArray,
   cubeIndexCount,
   cubePositionOffset,
-  cubeUVOffset,
   cubeVertexArray,
   cubeVertexSize,
 } from "../../cube";
@@ -55,12 +54,7 @@ export const devScene = sceneFactory<[message: string]>(
               {
                 shaderLocation: 0,
                 offset: cubePositionOffset,
-                format: "float32x4",
-              },
-              {
-                shaderLocation: 1,
-                offset: cubeUVOffset,
-                format: "float32x2",
+                format: "float32x3",
               },
             ],
           },

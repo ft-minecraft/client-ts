@@ -5,7 +5,6 @@ import {
   cubeIndexArray,
   cubeIndexCount,
   cubePositionOffset,
-  cubeUVOffset,
   cubeVertexArray,
   cubeVertexSize,
 } from "../../cube";
@@ -13,8 +12,13 @@ import { Scene } from "../../framework/types/Scene";
 import { sceneFactory } from "../../framework/util/sceneFactory";
 import { array } from "../../util/array/array";
 import { Hook, useEffect, useMemo } from "../../util/hooks";
+import { Block } from "./types/Block";
 
 const MAP_SIZE = 4;
+
+function chunkToBuffers(chunk: Block[]) {
+  //
+}
 
 function generateMap(...seed: string[]) {
   const noise = createNoise3D(Alea(...seed));
@@ -66,12 +70,7 @@ export const mainScene = sceneFactory<[message: string]>(
               {
                 shaderLocation: 0,
                 offset: cubePositionOffset,
-                format: "float32x4",
-              },
-              {
-                shaderLocation: 1,
-                offset: cubeUVOffset,
-                format: "float32x2",
+                format: "float32x3",
               },
             ],
           },
