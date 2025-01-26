@@ -2,5 +2,6 @@
   "recommendations": [
     "EditorConfig.EditorConfig",
     "esbenp.prettier-vscode",
+    "wgsl-analyzer.wgsl-analyzer",
   ],
 }

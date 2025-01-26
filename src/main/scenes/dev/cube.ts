@@ -14,7 +14,7 @@ export const cubeIndexArray = new Uint16Array([
 
 // prettier-ignore
 export const cubeVertexArray = new Float32Array([
-  // float4 position, float4 color, float2 uv,
+  // float4 position
   1, -1, 1,
   -1, -1, 1,
   -1, -1, -1,

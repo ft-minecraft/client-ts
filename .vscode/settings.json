@@ -3,6 +3,10 @@
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "esbenp.prettier-vscode",
   },
+  "[wgsl]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "wgsl-analyzer.wgsl-analyzer",
+  },
   "editor.codeActionsOnSave": {
     "source.organizeImports": "explicit",
   },

@@ -8,3 +8,6 @@ indent_style = space
 tab_width = unset
 insert_final_newline = true
 trim_trailing_whitespace = true
+
+[*.wgsl]
+indent_size = 4

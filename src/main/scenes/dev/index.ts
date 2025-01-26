@@ -1,16 +1,16 @@
 import { mat4, vec3 } from "wgpu-matrix";
+import { Scene } from "../../framework/types/Scene";
+import { disposer } from "../../framework/util/disposer";
+import { sceneFactory } from "../../framework/util/sceneFactory";
+import { windowOn } from "../../util/dom/windowOn";
+import { Hook, useEffect, useMemo } from "../../util/hooks";
 import {
   cubeIndexArray,
   cubeIndexCount,
   cubePositionOffset,
   cubeVertexArray,
   cubeVertexSize,
-} from "../../cube";
-import { Scene } from "../../framework/types/Scene";
-import { disposer } from "../../framework/util/disposer";
-import { sceneFactory } from "../../framework/util/sceneFactory";
-import { windowOn } from "../../util/dom/windowOn";
-import { Hook, useEffect, useMemo } from "../../util/hooks";
+} from "./cube";
 
 export const devScene = sceneFactory<[message: string]>(
   async (context, message): Promise<Scene> => {
@@ -24,7 +24,7 @@ export const devScene = sceneFactory<[message: string]>(
       format,
       alphaMode: "opaque",
     });
-    const shaderCode = readFileSync("assets/shader.wgsl");
+    const shaderCode = readFileSync("assets/dev.wgsl");
     const shader = context.device.createShaderModule({
       code: shaderCode,
     });
@@ -101,7 +101,7 @@ export const devScene = sceneFactory<[message: string]>(
         windowOn("keydown", async (ev) => {
           if (ev.key == "Enter") {
             context.transition(
-              await (await import("../main")).mainScene(context, "test")
+              await (await import("../main")).mainScene(context)
             );
           }
         })
